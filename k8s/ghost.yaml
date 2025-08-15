@@ -21,12 +21,12 @@ spec:
             - name: database__connection__host
               value: mysql-service 
             - name: database__connection__user
-              value: root
+              value: user
             - name: database__connection__password
               valueFrom:
                 secretKeyRef:
                   name: mysql-secret
-                  key: mysql-root-password
+                  key: mysql-user-password
             - name: url
               value: http://ghost.example.com
           ports:

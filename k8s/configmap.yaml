@@ -1,0 +1,35 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: <ghost-config>
+data:
+  database__client: mysql
+  database__connection__host: <mysql-service-name>
+  database__connection__user: user
+  url: http://xx.xx.xx.xx:yy
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: <email-secret-name>
+stringData:
+  mail__transport: 'SMTP'
+  mail__from: 'name <email address>'
+  mail__options__service: 'Mailgun'
+  mail__options__host: 'smtp.eu.mailgun.org'
+  mail__options__port: '465'
+  mail__options__secure: "true"
+  mail__options__auth__user: '<uid>'
+  mail__options__auth__pass: '<pwd>'
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: <mysql-secret-name>
+type: Opaque
+stringData:
+  mysql-user-password: 
+  mysql-root-password: 
+  mysql-user-id: 
+  mysql-database: 

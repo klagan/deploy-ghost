@@ -1,42 +1,43 @@
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql
+  name: <mysql-deployment-name>
 spec:
   replicas: 1
-  serviceName: "mysql-service"
+  serviceName: "<mysql-service-name>"
   selector:
     matchLabels:
-      app: mysql
+      app: <mysql-deployment-name>
   template:
     metadata:
       labels:
-        app: mysql
+        app: <mysql-deployment-name>
     spec:
       containers:
-        - name: mysql
+        - name: <container name>
           image: mysql:8.0
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mysql-secret
+                  name: <mysql-secret-name>
                   key: mysql-root-password
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mysql-secret
+                  name: <mysql-secret-name>
                   key: mysql-user-password
-            - name: MYSQL_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: mysql-database
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: mysql-secret
+                  name: <mysql-secret-name>
                   key: mysql-user-id
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: <mysql-secret-name>
+                  key: mysql-database
           ports:
             - containerPort: 3306
           volumeMounts:
@@ -50,4 +51,3 @@ spec:
         resources:
           requests:
             storage: 2Gi
-

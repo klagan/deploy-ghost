@@ -1,27 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ghost
+  name: <ghost-deployment-name>
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ghost
+      app: <ghost-deployment-name>
   template:
     metadata:
       labels:
-        app: ghost
+        app: <ghost-deployment-name>
     spec:
       containers:
-        - name: ghost
+        - name: <container-name>
           image: ghost:latest
           env:
-            - name: database__client
-              value: mysql
-            - name: database__connection__host
-              value: mysql-service 
-            - name: database__connection__user
-              value: user
             - name: database__connection__database
               valueFrom:
                 secretKeyRef:
@@ -32,8 +26,11 @@ spec:
                 secretKeyRef:
                   name: mysql-secret
                   key: mysql-user-password
-            - name: url
-              value: http://ghost.example.com
+          envFrom:
+            - configMapRef:
+                name: <config-name>
+            - secretRef:
+                name: <secret-name>
           ports:
             - containerPort: 2368
           volumeMounts:
